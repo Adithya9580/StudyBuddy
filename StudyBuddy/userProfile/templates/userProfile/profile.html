@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile - Study Buddy</title>
+  
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Google Fonts - Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Global styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      background-color: #f5f5f5;
+    }
+
+    main {
+      flex: 1 0 auto;
+      padding: 20px 0;
+    }
+
+    .btn, .btn-large {
+      background-color: #009688;
+      border-radius: 4px;
+    }
+
+    .btn:hover, .btn-large:hover {
+      background-color: #00796B;
+    }
+
+    /* Navbar */
+    nav .brand-logo {
+      font-weight: 600;
+    }
+
+    .dropdown-content {
+      border-radius: 4px;
+      top: 64px !important;
+    }
+
+    /* Page title */
+    .page-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #009688;
+    }
+
+    .page-subtitle {
+      color: #757575;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Profile card */
+    .profile-card {
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #e3f2fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+    }
+
+    .profile-avatar i {
+      font-size: 40px;
+      color: #009688;
+    }
+
+    .profile-info h1 {
+      font-size: 1.8rem;
+      margin: 0 0 5px 0;
+    }
+
+    .profile-info p {
+      color: #757575;
+      margin: 0;
+    }
+
+    /* Sections */
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #424242;
+      font-size: 1.25rem;
+    }
+
+    /* Subject chips */
+    .subject-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .chip {
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      font-weight: 500;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 15px;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chip.selected {
+      background-color: #009688;
+      color: white;
+    }
+
+    .chip:hover {
+      background-color: #e0e0e0;
+    }
+
+    .chip.selected:hover {
+      background-color: #00796B;
+    }
+
+    /* Form fields */
+    .input-field label {
+      color: #616161;
+    }
+
+    .input-field input[type=text]:focus + label,
+    .input-field input[type=email]:focus + label,
+    .input-field textarea:focus + label {
+      color: #009688 !important;
+    }
+
+    .input-field input[type=text]:focus,
+    .input-field input[type=email]:focus,
+    .input-field textarea:focus {
+      border-bottom: 1px solid #009688 !important;
+      box-shadow: 0 1px 0 0 #009688 !important;
+    }
+
+    /* Form sections */
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    /* Submit button */
+    .submit-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    /* Footer */
+    .page-footer {
+      background-color: #009688;
+    }
+
+    /* Accessibility */
+    a:focus, button:focus, input:focus, textarea:focus {
+      outline: 2px solid #009688;
+      outline-offset: 2px;
+    }
+
+    .chip:focus {
+      outline: 2px solid #009688;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #009688;
+      color: white;
+      padding: 8px;
+      z-index: 1000;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Navbar -->
+  <header>
+    <div class="navbar-fixed">
+      <nav class="teal darken-1">
+        <div class="nav-wrapper container">
+          <a href="{% url 'dashboard' %}" class="brand-logo">Study Buddy</a>
+          <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="{% url 'dashboard' %}">Find Groups</a></li>
+            <li><a href="{% url 'create_group' %}">Create Group</a></li>
+            <li class="active"><a href="{% url 'profile' %}">My Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+          
+          <!-- Mobile navigation -->
+          <ul id="mobile-nav" class="sidenav">
+            <li><a href="{% url 'dashboard' %}">Find Groups</a></li>
+            <li><a href="{% url 'create_group' %}">Create Group</a></li>
+            <li class="active"><a href="{% url 'profile' %}">My Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main id="main-content" class="container">
+    <!-- Profile Card -->
+    <div class="row">
+      <div class="col s12">
+        <div class="profile-card card">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <i class="material-icons">person</i>
+            </div>
+            <div class="profile-info">
+              <h1 class="page-title">{{ user.username }}</h1>
+              <p>{{ user.email }}</p>
+            </div>
+          </div>
+          
+          <!-- Messages will be displayed as toasts -->
+          
+          <!-- Profile Edit Form -->
+          <form method="post">
+            {% csrf_token %}
+            
+            <!-- Personal Information Section -->
+            <div class="form-section">
+              <h2 class="section-title">Personal Information</h2>
+              
+              <div class="row">
+                <div class="input-field col s12 m6">
+                  <input id="first_name" name="first_name" type="text" value="{{ user.first_name }}">
+                  <label for="first_name" {% if user.first_name %}class="active"{% endif %}>First Name</label>
+                </div>
+                
+                <div class="input-field col s12 m6">
+                  <input id="last_name" name="last_name" type="text" value="{{ user.last_name }}">
+                  <label for="last_name" {% if user.last_name %}class="active"{% endif %}>Last Name</label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="email" name="email" type="email" value="{{ user.email }}" disabled>
+                  <label for="email" class="active">Email Address</label>
+                  <span class="helper-text">Email cannot be changed</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Study Preferences Section -->
+            <div class="form-section">
+              <h2 class="section-title">Study Preferences</h2>
+              
+              <div class="row">
+                <div class="col s12">
+                  <p>Select subjects you're interested in:</p>
+                  <div class="subject-chips">
+                    {% for subject in subjects %}
+                    <div class="chip {% if subject in profile.subjects.all %}selected{% endif %}" onclick="toggleSubject(this, {{ subject.id }})">
+                      {{ subject.name }}
+                    </div>
+                    {% endfor %}
+                    <input type="hidden" id="selected_subjects" name="selected_subjects" value="{{ selected_subjects_ids }}">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="bio" name="bio" class="materialize-textarea">{{ profile.bio }}</textarea>
+                  <label for="bio" {% if profile.bio %}class="active"{% endif %}>Bio</label>
+                  <span class="helper-text">Tell others about yourself and your study goals</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="submit-section">
+              <button type="submit" class="btn waves-effect waves-light">
+                Save Changes
+                <i class="material-icons right">save</i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- My Groups Section -->
+    <div class="row">
+      <div class="col s12">
+        <h2 class="page-title" style="margin-top: 2rem;">My Study Groups</h2>
+        <p class="page-subtitle">Groups you've joined or created</p>
+        
+        {% if memberships %}
+          <div class="row">
+            {% for membership in memberships %}
+              <div class="col s12 m6 l4">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <span class="card-title">{{ membership.group.title }}</span>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                      <i class="material-icons tiny" style="margin-right: 5px; color: #757575;">school</i>
+                      <span>{{ membership.group.subject.name }}</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                      <i class="material-icons tiny" style="margin-right: 5px; color: #757575;">group</i>
+                      <span>{{ membership.group.members.count }} member{{ membership.group.members.count|pluralize }}</span>
+                    </div>
+                    
+                    {% if membership.group.host == user %}
+                      <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <i class="material-icons tiny" style="margin-right: 5px; color: #757575;">star</i>
+                        <span>You are the host</span>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="card-action">
+                    <a href="{% url 'group_details' group_id=membership.group.id slug=membership.group.slug %}" class="btn">View Group</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="card-panel">
+            <p>You haven't joined any study groups yet. <a href="{% url 'dashboard' %}">Find groups to join!</a></p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer teal">
+    <div class="footer-copyright">
+      <div class="container center-align">
+        &copy; 2023 Study Buddy. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Include toast messages -->
+  {% include 'includes/toast_messages.html' %}
+
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sidenav
+      var elems = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(elems);
+      
+      // Initialize textarea
+      var textareas = document.querySelectorAll('.materialize-textarea');
+      M.textareaAutoResize(textareas);
+    });
+    
+    // Handle subject chip selection
+    function toggleSubject(chipElement, subjectId) {
+      chipElement.classList.toggle('selected');
+      
+      // Update hidden input with selected subject IDs
+      var selectedSubjectsInput = document.getElementById('selected_subjects');
+      var currentSelections = selectedSubjectsInput.value ? selectedSubjectsInput.value.split(',') : [];
+      
+      if (chipElement.classList.contains('selected')) {
+        // Add subject ID if not already in the list
+        if (!currentSelections.includes(subjectId.toString())) {
+          currentSelections.push(subjectId.toString());
+        }
+      } else {
+        // Remove subject ID
+        var index = currentSelections.indexOf(subjectId.toString());
+        if (index > -1) {
+          currentSelections.splice(index, 1);
+        }
+      }
+      
+      selectedSubjectsInput.value = currentSelections.join(',');
+    }
+  </script>
+</body>
+</html>
