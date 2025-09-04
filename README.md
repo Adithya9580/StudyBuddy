@@ -485,13 +485,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Django Community** - For the excellent web framework
 - **Materialize CSS** - For the beautiful UI components
 - **Contributors** - Thanks to all who have contributed to this project
-
-## Contact
-
-- **Developer**: [Bhargava Sharabha](mailto:bhargavasharabha@gmail.com)
-- **GitHub**: [BhargavaSharabha](https://github.com/BhargavaSharabha)
-- **LinkedIn**: [bhargavasharabhapagidimarri](https://www.linkedin.com/in/bhargavasharabhapagidimarri/)
-
 ---
 
 **StudyBuddy** - *Connecting minds, building knowledge together* 🎓
